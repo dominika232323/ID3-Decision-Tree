@@ -4,5 +4,8 @@ from id3 import *
 
 if __name__ == '__main__':
     data = pd.read_csv('data/test.data', sep=',', dtype=str, header=None)
+    num_of_colums = len(data.columns)
 
-    print(inf_gain(0, data))
+    print(num_of_colums)
+
+    print(id3(0, [i for i in range(num_of_colums-1)], data))

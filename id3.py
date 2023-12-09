@@ -1,21 +1,36 @@
 import numpy as np
 
 
-def id3(Y, D, U):
-    pass
+def id3(Y, informative_features, dataset):
+    d = find_max_informative_feature(informative_features, dataset)
+    return d
 
 
-def inf_gain(d, U):
-    return count_entropy(U) - count_subset_entropy(d, U)
+def find_max_informative_feature(informative_features, dataset):
+    max_inf_feature = informative_features[0]
+    max_inf_gain = inf_gain(max_inf_feature, dataset)
+
+    for d in informative_features[1:]:
+        feature_gain = inf_gain(d, dataset)
+
+        if feature_gain > max_inf_gain:
+            max_inf_gain = feature_gain
+            max_inf_feature = d
+
+    return max_inf_feature
 
 
-def count_entropy(U):
+def inf_gain(inf_feature, dataset):
+    return count_entropy(dataset) - count_subset_entropy(inf_feature, dataset)
+
+
+def count_entropy(dataset):
     I = 0
 
-    classes = U[U.columns[-1]]
+    classes = dataset[dataset.columns[-1]]
     classnames = classes.unique()
 
-    num_of_rows = len(U)
+    num_of_rows = len(dataset)
 
     for name in classnames:
         class_count = classes.value_counts().get(name)
@@ -31,16 +46,16 @@ def count_entropy(U):
     return I
 
 
-def count_subset_entropy(d, U):
+def count_subset_entropy(inf_feature, dataset):
     inf = 0
 
-    column = U[U.columns[d]]
+    column = dataset[dataset.columns[inf_feature]]
     column_values = column.unique()
 
-    classes = U[U.columns[-1]]
+    classes = dataset[dataset.columns[-1]]
     classnames = classes.unique()
 
-    num_of_rows = len(U)
+    num_of_rows = len(dataset)
 
     for value in column_values:
         value_count = column.value_counts().get(value)
