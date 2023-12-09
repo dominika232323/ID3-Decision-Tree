@@ -1,2 +1,3 @@
 class DecisionTree:
-    pass
+    def __int__(self, root):
+        self.root = root
