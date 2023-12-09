@@ -9,3 +9,6 @@ if __name__ == '__main__':
     print(num_of_colums)
 
     print(id3(['yes'], [i for i in range(num_of_colums-1)], data))
+
+    print(list(data[data.columns[0]]))
+    print(list(data[data.columns[0]])[0])
