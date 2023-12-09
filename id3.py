@@ -7,9 +7,14 @@ def inf_gain(d, U):
 
 
 def count_entropy(U):
+    I = 0
+
     classes = U[U.columns[-1]]
     classnames = classes.unique()
-    print(classnames)
+
+    for name in classnames:
+        class_count = classes.value_counts().get(name)
+        print(name, class_count)
 
 
 def count_subset_entropy(d, U):
