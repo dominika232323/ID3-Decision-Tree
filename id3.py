@@ -1,9 +1,21 @@
 import numpy as np
+from leaf import Leaf
 
 
-def id3(Y, informative_features, dataset):
-    d = find_max_informative_feature(informative_features, dataset)
-    return d
+def id3(class_names, informative_features, dataset):
+    if len(informative_features) == 0:
+        most_common_class = class_names[0]
+
+        for class_name in class_names:
+            classes_column = dataset[dataset.columns[-1]]
+            class_count = classes_column.value_counts().get(class_name)
+
+            if class_count > most_common_class:
+                most_common_class = class_name
+
+        return Leaf(most_common_class)
+
+    best_info_feature = find_max_informative_feature(informative_features, dataset)
 
 
 def find_max_informative_feature(informative_features, dataset):
@@ -52,23 +64,23 @@ def count_subset_entropy(inf_feature, dataset):
     column = dataset[dataset.columns[inf_feature]]
     column_values = column.unique()
 
-    classes = dataset[dataset.columns[-1]]
-    classnames = classes.unique()
+    classes_column = dataset[dataset.columns[-1]]
+    class_names = classes_column.unique()
 
     num_of_rows = len(dataset)
 
     for value in column_values:
         value_count = column.value_counts().get(value)
 
-        class_count = {name: 0 for name in classnames}
+        class_count = {name: 0 for name in class_names}
 
-        for val, cla in zip(column, classes):
+        for val, cla in zip(column, classes_column):
             if val == value:
                 class_count[cla] += 1
 
         subset_entropy = 0
 
-        for name in classnames:
+        for name in class_names:
             ratio = class_count[name] / value_count
 
             if ratio == 0 or ratio == 1:
