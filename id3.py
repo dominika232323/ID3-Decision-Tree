@@ -3,19 +3,27 @@ from leaf import Leaf
 
 
 def id3(class_names, informative_features, dataset):
+    if len(class_names) == 1:
+        return Leaf(class_names[0])
+
     if len(informative_features) == 0:
-        most_common_class = class_names[0]
-
-        for class_name in class_names:
-            classes_column = dataset[dataset.columns[-1]]
-            class_count = classes_column.value_counts().get(class_name)
-
-            if class_count > most_common_class:
-                most_common_class = class_name
-
-        return Leaf(most_common_class)
+        return Leaf(find_most_common_class(class_names, dataset))
 
     best_info_feature = find_max_informative_feature(informative_features, dataset)
+    return best_info_feature
+
+
+def find_most_common_class(class_names, dataset):
+    most_common_class = class_names[0]
+
+    for class_name in class_names:
+        classes_column = dataset[dataset.columns[-1]]
+        class_count = classes_column.value_counts().get(class_name)
+
+        if class_count > most_common_class:
+            most_common_class = class_name
+
+    return most_common_class
 
 
 def find_max_informative_feature(informative_features, dataset):

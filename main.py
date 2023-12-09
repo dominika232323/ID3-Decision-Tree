@@ -8,4 +8,4 @@ if __name__ == '__main__':
 
     print(num_of_colums)
 
-    print(id3(0, [i for i in range(num_of_colums-1)], data))
+    print(id3(['yes'], [i for i in range(num_of_colums-1)], data))

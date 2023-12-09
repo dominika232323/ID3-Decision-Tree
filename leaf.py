@@ -1,5 +1,5 @@
 class Leaf:
-    def __int__(self, class_name):
+    def __init__(self, class_name):
         self._class_name = class_name
 
     @property
