@@ -4,11 +4,10 @@ from id3 import *
 
 if __name__ == '__main__':
     data = pd.read_csv('data/test.data', sep=',', dtype=str, header=None)
-    num_of_colums = len(data.columns)
+    data.sample(frac=1)
 
-    print(num_of_colums)
+    num_rows = data.shape[0]
+    split_point = int(num_rows * 3 / 5)
 
-    print(id3(['yes'], [i for i in range(num_of_colums-1)], data))
-
-    print(list(data[data.columns[0]]))
-    print(list(data[data.columns[0]])[0])
+    training_data = data[:split_point]
+    testing_data = data[split_point:]
