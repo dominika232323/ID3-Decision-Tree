@@ -1,16 +1,23 @@
 import numpy as np
-from leaf import Leaf
+from node import Node
 
 
 def id3(class_names, informative_features, dataset):
     if len(class_names) == 1:
-        return Leaf(class_names[0])
+        return Node(class_name=class_names[0])
 
     if len(informative_features) == 0:
-        return Leaf(find_most_common_class(class_names, dataset))
+        return Node(class_name=find_most_common_class(class_names, dataset))
 
     best_info_feature = find_max_informative_feature(informative_features, dataset)
-    return best_info_feature
+    best_feature_column = dataset[dataset.columns[best_info_feature]]
+    best_feature_values = best_feature_column.unique()
+
+    new_dataset = dataset.drop(dataset.columns[best_info_feature], axis=1)
+
+    root = Node(feature=best_info_feature)
+
+    # for value in best_feature_values:
 
 
 def find_most_common_class(class_names, dataset):
