@@ -28,10 +28,10 @@ def find_most_common_class(class_names, dataset):
 
 def find_max_informative_feature(informative_features, dataset):
     max_inf_feature = informative_features[0]
-    max_inf_gain = inf_gain(max_inf_feature, dataset)
+    max_inf_gain = informative_gain(max_inf_feature, dataset)
 
     for d in informative_features[1:]:
-        feature_gain = inf_gain(d, dataset)
+        feature_gain = informative_gain(d, dataset)
 
         if feature_gain > max_inf_gain:
             max_inf_gain = feature_gain
@@ -40,7 +40,7 @@ def find_max_informative_feature(informative_features, dataset):
     return max_inf_feature
 
 
-def inf_gain(inf_feature, dataset):
+def informative_gain(inf_feature, dataset):
     return count_entropy(dataset) - count_subset_entropy(inf_feature, dataset)
 
 
