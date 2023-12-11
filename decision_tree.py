@@ -34,6 +34,6 @@ class DecisionTree:
             if child.is_leaf():
                 print(child.class_name)
             else:
-                children_line += child.feature_value_branch + ',' + child.feature + '       '
+                children_line += str(child.feature_value_branch) + ',' + str(child.feature) + '       '
                 print(children_line)
                 self._print_recurr(child)
