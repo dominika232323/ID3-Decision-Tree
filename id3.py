@@ -17,7 +17,7 @@ def id3(class_names, informative_features, dataset, class_index):
 
     for value in best_feature_values:
         value_dataset = dataset[dataset[best_info_feature] == value]
-        new_dataset = value_dataset.drop(value_dataset.columns[best_info_feature], axis=1)
+        new_dataset = value_dataset.drop(columns=best_info_feature)
 
         new_informative_features = informative_features.copy()
         new_informative_features.remove(best_info_feature)
@@ -25,7 +25,13 @@ def id3(class_names, informative_features, dataset, class_index):
         new_class_names_column = new_dataset[new_dataset.columns[class_index]]
         new_class_names = new_class_names_column.unique()
 
-        child = id3(new_class_names, new_informative_features, new_dataset, class_index)
+        child = Node()
+
+        if len(new_class_names) == 1:
+            child.set_class_name(new_class_names[0])
+        else:
+            child = id3(new_class_names, new_informative_features, new_dataset, class_index)
+
         child.set_feature_value_branch(value)
         root.add_child(child)
 

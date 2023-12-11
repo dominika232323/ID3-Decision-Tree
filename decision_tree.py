@@ -28,10 +28,9 @@ class DecisionTree:
             self._print(self._root, 1)
 
     def _print(self, current_node, depth):
-        if current_node.is_leaf():
-            print('\t' * depth, current_node.feature_value_branch, current_node.class_name)
-        else:
-            for child in current_node.children:
+        for child in current_node.children:
+            if child.is_leaf():
+                print('\t' * depth, child.feature_value_branch, child.class_name)
+            else:
                 print('\t' * depth, child.feature_value_branch, child.feature)
                 self._print(child, depth + 1)
-
