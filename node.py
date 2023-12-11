@@ -24,6 +24,9 @@ class Node:
     def is_leaf(self):
         return self._class_name is not None
 
+    def is_root(self):
+        return self._feature_value_branch is None
+
     def set_feature(self, feature):
         self._feature = feature
 
