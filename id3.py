@@ -2,7 +2,7 @@ import numpy as np
 from node import Node
 
 
-def id3(class_names, informative_features, dataset):
+def id3(class_names, informative_features, dataset, class_index):
     if len(class_names) == 1:
         return Node(class_name=class_names[0])
 
@@ -13,11 +13,23 @@ def id3(class_names, informative_features, dataset):
     best_feature_column = dataset[dataset.columns[best_info_feature]]
     best_feature_values = best_feature_column.unique()
 
-    new_dataset = dataset.drop(dataset.columns[best_info_feature], axis=1)
-
     root = Node(feature=best_info_feature)
 
-    # for value in best_feature_values:
+    for value in best_feature_values:
+        value_dataset = dataset.loc[dataset[best_info_feature] == value]
+        new_dataset = value_dataset.drop(value_dataset.columns[best_info_feature], axis=1)
+
+        new_informative_features = informative_features.copy()
+        new_informative_features.remove(best_info_feature)
+
+        new_class_names_column = new_dataset[new_dataset.columns[class_index]]
+        new_class_names = new_class_names_column.unique()
+
+        child = id3(new_class_names, new_informative_features, new_dataset, class_index)
+        child.set_feature_value_branch(value)
+        root.add_child(child)
+
+    return root
 
 
 def find_most_common_class(class_names, dataset):
