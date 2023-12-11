@@ -6,7 +6,6 @@ from node import Node
 class DecisionTree:
     def __init__(self):
         self._root = None
-
         self._class_column_name = 0
 
     def build_id3_tree(self, dataset, class_column_name):
@@ -123,7 +122,10 @@ class DecisionTree:
 
         return value_entropy
 
-    def predict(self, data):
+    def predict(self, dataset):
+        pass
+
+    def _predict_row(self, row):
         pass
 
     def print(self):
@@ -140,3 +142,6 @@ class DecisionTree:
             else:
                 print('\t' * depth, child.feature_value_branch, child.feature)
                 self._print(child, depth + 1)
+
+    def is_tree_empty(self):
+        return self._root is None
