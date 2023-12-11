@@ -129,7 +129,7 @@ class DecisionTree:
         pass
 
     def print(self):
-        if self._root is None:
+        if self.is_tree_empty():
             print('Empty decision tree')
         else:
             print(self._root.feature)
