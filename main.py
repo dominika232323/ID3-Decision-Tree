@@ -1,5 +1,6 @@
 from id3 import *
 from dataset_reader import *
+from decision_tree import DecisionTree
 
 
 if __name__ == '__main__':
@@ -10,3 +11,7 @@ if __name__ == '__main__':
 
     training_data = data[:split_point]
     testing_data = data[split_point:]
+
+    tree = DecisionTree()
+    tree.build_id3_tree(data, -1)
+    tree.print()
