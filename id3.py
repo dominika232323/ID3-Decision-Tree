@@ -10,13 +10,13 @@ def id3(class_names, informative_features, dataset, class_index):
         return Node(class_name=find_most_common_class(class_names, dataset))
 
     best_info_feature = find_max_informative_feature(informative_features, dataset)
-    best_feature_column = dataset[dataset.columns[best_info_feature]]
+    best_feature_column = dataset[best_info_feature]
     best_feature_values = best_feature_column.unique()
 
     root = Node(feature=best_info_feature)
 
     for value in best_feature_values:
-        value_dataset = dataset.loc[dataset[best_info_feature] == value]
+        value_dataset = dataset[dataset[best_info_feature] == value]
         new_dataset = value_dataset.drop(value_dataset.columns[best_info_feature], axis=1)
 
         new_informative_features = informative_features.copy()
@@ -88,7 +88,7 @@ def count_entropy(dataset):
 def count_subset_entropy(inf_feature, dataset):
     inf = 0
 
-    column = dataset[dataset.columns[inf_feature]]
+    column = dataset[inf_feature]
     column_values = column.unique()
 
     classes_column = dataset[dataset.columns[-1]]

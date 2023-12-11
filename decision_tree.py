@@ -25,15 +25,13 @@ class DecisionTree:
             print('Empty decision tree')
         else:
             print(self._root.feature)
-            self._print_recurr(self._root)
+            self._print(self._root, 1)
 
-    def _print_recurr(self, current_node):
-        children_line = ''
+    def _print(self, current_node, depth):
+        if current_node.is_leaf():
+            print('\t' * depth, current_node.feature_value_branch, current_node.class_name)
+        else:
+            for child in current_node.children:
+                print('\t' * depth, child.feature_value_branch, child.feature)
+                self._print(child, depth + 1)
 
-        for child in current_node.children:
-            if child.is_leaf():
-                print(child.class_name)
-            else:
-                children_line += str(child.feature_value_branch) + ',' + str(child.feature) + '       '
-                print(children_line)
-                self._print_recurr(child)
