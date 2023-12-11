@@ -13,10 +13,6 @@ if __name__ == '__main__':
     training_data = data[:split_point]
     testing_data = data[split_point:]
 
-    col = data[4]
-    c = Counter(col)
-    print(c)
-
-    # tree = DecisionTree()
-    # tree.build_id3_tree(data, -1)
-    # tree.print()
+    tree = DecisionTree()
+    tree.build_id3_tree(data, -1)
+    tree.print()

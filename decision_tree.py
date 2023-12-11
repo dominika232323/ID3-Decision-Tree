@@ -1,5 +1,5 @@
 from collections import Counter
-from id3 import id3
+import numpy as np
 from node import Node
 
 
@@ -10,7 +10,7 @@ class DecisionTree:
         self._class_column_name = 0
 
     def build_id3_tree(self, dataset, class_column_name):
-        self._class_column_name = class_column_name if class_column_name >= 0 else self._dataset.shape[1] - 1
+        self._class_column_name = class_column_name if class_column_name >= 0 else dataset.shape[1] - 1
 
         class_column = dataset[self._class_column_name]
         class_names = class_column.unique()
@@ -19,7 +19,7 @@ class DecisionTree:
         informative_features = [i for i in range(num_of_columns)]
         informative_features.remove(self._class_column_name)
 
-        self._root = id3(class_names, informative_features, dataset, self._class_column_name)
+        self._root = self._id3(class_names, informative_features, dataset)
 
     def _id3(self, class_names, informative_features, dataset):
         if len(class_names) == 1:
@@ -49,7 +49,7 @@ class DecisionTree:
             if len(new_class_names) == 1:
                 child.set_class_name(new_class_names[0])
             else:
-                child = id3(new_class_names, new_informative_features, new_dataset, self._class_column_name)
+                child = self._id3(new_class_names, new_informative_features, new_dataset)
 
             child.set_feature_value_branch(value)
             root.add_child(child)
@@ -74,8 +74,54 @@ class DecisionTree:
         return max_inf_feature
 
     def _informative_gain(self, inf_feature, dataset):
-        return count_entropy(dataset) - count_subset_entropy(inf_feature, dataset)
+        return self._count_entropy(dataset) - self._count_subset_entropy(inf_feature, dataset)
 
+    def _count_entropy(self, dataset):
+        class_column = dataset[self._class_column_name]
+        class_counter = Counter(class_column)
+
+        num_of_rows = len(dataset)
+
+        entropy = self._entropy(class_counter, num_of_rows)
+        return entropy
+
+    def _count_subset_entropy(self, inf_feature, dataset):
+        subset_entropy = 0
+
+        column = dataset[inf_feature]
+        value_count = Counter(column)
+
+        classes_column = dataset[self._class_column_name]
+        class_names = classes_column.unique()
+
+        num_of_rows = len(dataset)
+
+        for value in value_count:
+            class_count = {name: 0 for name in class_names}
+
+            for val, cla in zip(column, classes_column):
+                if val == value:
+                    class_count[cla] += 1
+
+            value_entropy = self._entropy(class_count, value_count[value])
+            subset_entropy += value_count[value] / num_of_rows * value_entropy
+
+        return subset_entropy
+
+    def _entropy(self, class_count, num_of_rows):
+        value_entropy = 0
+
+        for name in class_count:
+            ratio = class_count[name] / num_of_rows
+
+            if ratio == 0 or ratio == 1:
+                ent = 0
+            else:
+                ent = -1 * ratio * np.log2(ratio)
+
+            value_entropy += ent
+
+        return value_entropy
 
     def predict(self, data):
         pass
