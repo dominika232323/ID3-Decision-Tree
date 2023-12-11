@@ -1,5 +1,4 @@
 from collections import Counter
-from id3 import *
 from dataset_reader import *
 from decision_tree import DecisionTree
 
