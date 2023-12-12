@@ -139,7 +139,7 @@ class DecisionTree:
         for child in current_node.children:
             if child.feature_value_branch == row_feature_value:
                 return self._predict_row(row, child)
-        
+
         return self.find_most_probable_class(current_node)
 
     def find_most_probable_class(self, current_node=None):
