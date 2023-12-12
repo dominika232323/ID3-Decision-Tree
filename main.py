@@ -1,3 +1,4 @@
+from itertools import product
 from dataset_reader import read_dataset
 from decision_tree import DecisionTree
 
@@ -10,6 +11,18 @@ AGARICUS_LEPIOTA_CLASS_INDEX = 0
 
 TEST_DATASET_PATH = 'data/test.data'
 TEST_DATASET_CLASS_INDEX = -1
+
+
+def expected_vs_predicted(expected, predicted):
+    expected_class_names = list(set(expected))
+    predicted_class_names = list(set(predicted))
+    results = {combination: 0 for combination in list(product(expected_class_names, predicted_class_names))}
+
+    for expectation, prediction in zip(expected, predicted):
+        results[(expectation, prediction)] += 1
+
+    return results
+
 
 
 if __name__ == '__main__':
@@ -25,5 +38,10 @@ if __name__ == '__main__':
     tree.build_id3_tree(data, TEST_DATASET_CLASS_INDEX)
     tree.print()
 
+    expected = data[data.columns[TEST_DATASET_CLASS_INDEX]].values.flatten().tolist()
+    print(expected)
+
     predictions = tree.predict(data)
     print(predictions)
+
+    print(expected_vs_predicted(expected, predictions))
