@@ -57,7 +57,7 @@ class DecisionTree:
 
     def _find_most_common_class(self, dataset):
         class_counter = Counter(dataset[self._class_column_name])
-        return class_counter.most_common(1)
+        return class_counter.most_common(1)[0][0]
 
     def _find_max_informative_feature(self, informative_features, dataset):
         max_inf_feature = informative_features[0]

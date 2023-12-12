@@ -1,4 +1,5 @@
 from itertools import product
+from collections import Counter
 from dataset_reader import read_dataset
 from decision_tree import DecisionTree
 
@@ -25,8 +26,8 @@ def expected_vs_predicted(expected, predicted):
 
 
 if __name__ == '__main__':
-    dataset_path = TEST_DATASET_PATH
-    dataset_class_index = TEST_DATASET_CLASS_INDEX
+    dataset_path = BREST_CANCER_DATASET_PATH
+    dataset_class_index = BREST_CANCER_CLASS_INDEX
 
     data = read_dataset(dataset_path)
     data = data.sample(frac=1)
@@ -46,12 +47,13 @@ if __name__ == '__main__':
     tree.build_id3_tree(training_data, dataset_class_index)
     tree.print()
 
-    # expected = data[data.columns[dataset_class_index]].values.flatten().tolist()
-    # print(expected)
-    #
-    # predictions = tree.predict(testing_data)
-    # print(predictions)
-    #
-    # print(expected_vs_predicted(expected, predictions))
+    # class_counter = Counter(data[BREST_CANCER_CLASS_INDEX])
+    # print(class_counter.most_common(1)[0][0])
 
-    print(tree.find_most_probable_class())
+    expected = data[data.columns[dataset_class_index]].values.flatten().tolist()
+    print(expected)
+
+    predictions = tree.predict(testing_data)
+    print(predictions)
+
+    print(expected_vs_predicted(expected, predictions))
