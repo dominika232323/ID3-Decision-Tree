@@ -123,10 +123,22 @@ class DecisionTree:
         return value_entropy
 
     def predict(self, dataset):
-        pass
+        predictions = []
 
-    def _predict_row(self, row):
-        pass
+        for row_index, row in dataset.iterrows():
+            predictions.append(self._predict_row(row, self._root))
+
+        return predictions
+
+    def _predict_row(self, row, current_node):
+        if current_node.is_leaf():
+            return current_node.class_name
+
+        row_feature_value = row[current_node.feature]
+
+        for child in current_node.children:
+            if child.feature_value_branch == row_feature_value:
+                return self._predict_row(row, child)
 
     def print(self):
         if self.is_tree_empty():
