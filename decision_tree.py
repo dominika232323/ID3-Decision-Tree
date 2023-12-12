@@ -139,6 +139,43 @@ class DecisionTree:
         for child in current_node.children:
             if child.feature_value_branch == row_feature_value:
                 return self._predict_row(row, child)
+        
+        return self.find_most_probable_class(current_node)
+
+    def find_most_probable_class(self, current_node=None):
+        if current_node is None:
+            current_node = self._root
+
+        class_counter = self._count_classes_from_node(current_node)
+        return max(class_counter, key=class_counter.get)
+
+    def _count_classes_from_node(self, current_node):
+        class_counter = {}
+
+        if current_node.is_leaf():
+            if current_node.class_name not in class_counter:
+                class_counter[current_node.class_name] = 1
+            else:
+                class_counter[current_node.class_name] += 1
+
+            return class_counter
+
+        for child in current_node.children:
+            child_class_counter = self._count_classes_from_node(child)
+            class_counter = self._add_dictionaries(class_counter, child_class_counter)
+
+        return class_counter
+
+    def _add_dictionaries(self, dict1, dict2):
+        dict3 = dict1.copy()
+
+        for key in dict2:
+            if key not in dict3:
+                dict3[key] = dict2[key]
+            else:
+                dict3[key] += dict2[key]
+
+        return dict3
 
     def print(self):
         if self.is_tree_empty():
