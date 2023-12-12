@@ -24,9 +24,11 @@ def expected_vs_predicted(expected, predicted):
     return results
 
 
-
 if __name__ == '__main__':
-    data = read_dataset(TEST_DATASET_PATH)
+    dataset_path = TEST_DATASET_PATH
+    dataset_class_index = TEST_DATASET_CLASS_INDEX
+
+    data = read_dataset(dataset_path)
 
     num_rows = data.shape[0]
     split_point = int(num_rows * 3 / 5)
@@ -35,13 +37,13 @@ if __name__ == '__main__':
     testing_data = data[split_point:]
 
     tree = DecisionTree()
-    tree.build_id3_tree(data, TEST_DATASET_CLASS_INDEX)
+    tree.build_id3_tree(training_data, dataset_class_index)
     tree.print()
 
-    expected = data[data.columns[TEST_DATASET_CLASS_INDEX]].values.flatten().tolist()
+    expected = data[data.columns[dataset_class_index]].values.flatten().tolist()
     print(expected)
 
-    predictions = tree.predict(data)
+    predictions = tree.predict(testing_data)
     print(predictions)
 
     print(expected_vs_predicted(expected, predictions))

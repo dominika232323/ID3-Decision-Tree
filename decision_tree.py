@@ -144,8 +144,11 @@ class DecisionTree:
         if self.is_tree_empty():
             print('Empty decision tree')
         else:
-            print(self._root.feature)
-            self._print(self._root, 1)
+            if self._root.is_leaf():
+                print(self._root.class_name)
+            else:
+                print(self._root.feature)
+                self._print(self._root, 1)
 
     def _print(self, current_node, depth):
         for child in current_node.children:
