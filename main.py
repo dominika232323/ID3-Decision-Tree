@@ -25,10 +25,16 @@ def expected_vs_predicted(expected, predicted):
 
 
 if __name__ == '__main__':
-    dataset_path = TEST_DATASET_PATH
-    dataset_class_index = TEST_DATASET_CLASS_INDEX
+    dataset_path = BREST_CANCER_DATASET_PATH
+    dataset_class_index = BREST_CANCER_CLASS_INDEX
 
     data = read_dataset(dataset_path)
+    data = data.sample(frac=1)
+
+    class_column = data[dataset_class_index]
+    class_names = class_column.unique()
+
+    print(class_names)
 
     num_rows = data.shape[0]
     split_point = int(num_rows * 3 / 5)
