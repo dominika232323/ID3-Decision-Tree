@@ -26,8 +26,8 @@ def expected_vs_predicted(expected, predicted):
 
 
 if __name__ == '__main__':
-    dataset_path = BREST_CANCER_DATASET_PATH
-    dataset_class_index = BREST_CANCER_CLASS_INDEX
+    dataset_path = AGARICUS_LEPIOTA_DATASET_PATH
+    dataset_class_index = AGARICUS_LEPIOTA_CLASS_INDEX
 
     data = read_dataset(dataset_path)
     data = data.sample(frac=1)
@@ -46,9 +46,6 @@ if __name__ == '__main__':
     tree = DecisionTree()
     tree.build_id3_tree(training_data, dataset_class_index)
     tree.print()
-
-    # class_counter = Counter(data[BREST_CANCER_CLASS_INDEX])
-    # print(class_counter.most_common(1)[0][0])
 
     expected = data[data.columns[dataset_class_index]].values.flatten().tolist()
     print(expected)
