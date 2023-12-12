@@ -14,3 +14,6 @@ if __name__ == '__main__':
     tree = DecisionTree()
     tree.build_id3_tree(data, -1)
     tree.print()
+
+    predictions = tree.predict(data)
+    print(predictions)
