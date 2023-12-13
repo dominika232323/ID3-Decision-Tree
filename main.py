@@ -1,6 +1,6 @@
 from itertools import product
 from collections import Counter
-from dataset_reader import read_dataset
+from dataset_reader import read_dataset, split_data
 from decision_tree import DecisionTree
 
 
@@ -28,16 +28,6 @@ def expected_vs_predicted(expected, predicted):
                 results[(expectation, prediction)] = 1
 
     return results
-
-
-def split_data(data, ratio_first_number, ratio_second_number):
-    num_rows = data.shape[0]
-    split_point = int(num_rows * ratio_first_number / (ratio_first_number + ratio_second_number))
-
-    training_data = data[:split_point]
-    testing_data = data[split_point:]
-
-    return training_data, testing_data
 
 
 if __name__ == '__main__':
