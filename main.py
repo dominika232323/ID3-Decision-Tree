@@ -66,8 +66,8 @@ def print_result(expected_vs_predicted_result, expected):
 
 
 if __name__ == '__main__':
-    dataset_path = BREST_CANCER_DATASET_PATH
-    dataset_class_index = BREST_CANCER_CLASS_INDEX
+    dataset_path = AGARICUS_LEPIOTA_DATASET_PATH
+    dataset_class_index = AGARICUS_LEPIOTA_CLASS_INDEX
 
     reviewed_results_info = [['Liczba wykonanych przewidzeń', 'Liczba poprawnych przewidzeń', 'Liczba niepoprawnych przewidzeń', 'Dokładność przewidzeń']]
 
@@ -86,7 +86,7 @@ if __name__ == '__main__':
         results = expected_vs_predicted(expected, predicted)
         accurency, correct, incorrect = review_results(results)
 
-        reviewed_results_info.append([testing_data.shape[0], correct, incorrect, accurency])
+        reviewed_results_info.append([len(predicted) - predicted.count(None), correct, incorrect, accurency])
 
     print_table(reviewed_results_info)
     print()
