@@ -140,13 +140,6 @@ class DecisionTree:
 
         return None
 
-    def find_most_probable_class(self, current_node=None):
-        if current_node is None:
-            current_node = self._root
-
-        class_counter = self._count_classes_from_node(current_node)
-        return max(class_counter, key=class_counter.get)
-
     def _count_classes_from_node(self, current_node):
         class_counter = {}
 
