@@ -30,7 +30,7 @@ if __name__ == '__main__':
     dataset_class_index = AGARICUS_LEPIOTA_CLASS_INDEX
 
     data = read_dataset(dataset_path)
-    data = data.sample(frac=1)
+    # data = data.sample(frac=1)
 
     class_column = data[dataset_class_index]
     class_names = class_column.unique()

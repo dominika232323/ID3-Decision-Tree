@@ -134,10 +134,8 @@ class DecisionTree:
         if current_node.is_leaf():
             return current_node.class_name
 
-        row_feature_value = row[current_node.feature]
-
         for child in current_node.children:
-            if child.feature_value_branch == row_feature_value:
+            if child.feature_value_branch == row[current_node.feature]:
                 return self._predict_row(row, child)
 
         return self.find_most_probable_class(current_node)
