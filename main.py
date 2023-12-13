@@ -1,5 +1,3 @@
-from itertools import product
-from collections import Counter
 from dataset_reader import read_dataset, split_data
 from decision_tree import DecisionTree
 
@@ -15,9 +13,6 @@ TEST_DATASET_CLASS_INDEX = 4
 
 
 def expected_vs_predicted(expected, predicted):
-    expected_class_names = list(set(expected))
-    predicted_class_names = list(set(predicted))
-
     results = {}
 
     for expectation, prediction in zip(expected, predicted):
