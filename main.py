@@ -66,14 +66,14 @@ def print_result(expected_vs_predicted_result, expected):
 
 
 if __name__ == '__main__':
+    dataset_path = AGARICUS_LEPIOTA_DATASET_PATH
+    dataset_class_index = AGARICUS_LEPIOTA_CLASS_INDEX
+
     reviewed_results_info = [['Liczba wykonanych przewidzeń', 'Liczba poprawnych przewidzeń', 'Liczba niepoprawnych przewidzeń', 'Dokładność przewidzeń']]
 
     for i in range(20):
-        dataset_path = AGARICUS_LEPIOTA_DATASET_PATH
-        dataset_class_index = AGARICUS_LEPIOTA_CLASS_INDEX
-
         data = read_dataset(dataset_path)
-        # data = data.sample(frac=1)
+        data = data.sample(frac=1)
 
         training_data, testing_data = split_data(data, 3, 2)
 
